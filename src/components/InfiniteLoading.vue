@@ -142,6 +142,7 @@ export default {
     },
   },
   mounted() {
+    console.log('infinite loading mounted');
     this.$watch('forceUseInfiniteWrapper', () => {
       this.scrollParent = this.getScrollParent();
     }, { immediate: true });
@@ -256,6 +257,7 @@ export default {
     *                                    event handler
     */
     attemptLoad(isContinuousCall) {
+      console.log('attempting load');
       if (
         this.status !== STATUS.COMPLETE
         && isVisible(this.$el)
@@ -321,7 +323,7 @@ export default {
 
       if (!result) {
         if (elm.tagName === 'BODY') {
-          result = window;
+          result = window && window.parent;
         } else if (!this.forceUseInfiniteWrapper && ['scroll', 'auto'].indexOf(getComputedStyle(elm).overflowY) > -1) {
           result = elm;
         } else if (elm.hasAttribute('infinite-wrapper') || elm.hasAttribute('data-infinite-wrapper')) {
